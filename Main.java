@@ -6,9 +6,6 @@
  * Última Atualização: 03/12/2024
  * Integrantes: David Lanna de Moraes, João Miguel de Abreu Constâncio e Paulo Ricardo Ferreira Gualberto. 
  */
-
-
-
 import java.util.Scanner;
 
 
