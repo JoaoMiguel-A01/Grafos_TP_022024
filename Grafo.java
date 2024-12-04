@@ -1,3 +1,4 @@
+
 /**
  * Algoritmos em Grafos
  * Pontifícia Universidade de Minas Gerais
@@ -21,61 +22,58 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.Stack;
 
-
 public class Grafo<TIPO> {
-	private int numvertices;
+    private int numvertices;
     private ArrayList<Vertice<TIPO>> vertices;
     private ArrayList<Aresta<TIPO>> arestas;
-    Scanner sc = new Scanner (System.in);
-    
+    Scanner sc = new Scanner(System.in);
+
     /**
      * Construtor da classe Grafo. Inicializa as listas de vértices e arestas.
      */
-    public Grafo(){
-    	
+    public Grafo() {
+
         this.vertices = new ArrayList<Vertice<TIPO>>();
         this.arestas = new ArrayList<Aresta<TIPO>>();
-        
+
     }
 
-     //Adiciona a quantidade de vertices do grafo
-      
+    // Adiciona a quantidade de vertices do grafo
+
     void addnumvertices(int numerovertices) {
-      
-    	this.numvertices = numerovertices;
-    	
+
+        this.numvertices = numerovertices;
+
     }
 
     // Adiciona um novo vertice ao grafo.
-     
-    public void adicionarVertice(TIPO dado){
+
+    public void adicionarVertice(TIPO dado) {
         Vertice<TIPO> novoVertice = new Vertice<TIPO>(dado);
         this.vertices.add(novoVertice);
     }
 
-     //Adiciona uma aresta direcionada com peso entre dois vertices.
-  
-    public void adicionarArestaDir(Double peso, TIPO dadoInicio, TIPO dadoFim){
-    	
+    // Adiciona uma aresta direcionada com peso entre dois vertices.
+
+    public void adicionarArestaDir(Double peso, TIPO dadoInicio, TIPO dadoFim) {
+
         Vertice<TIPO> inicio = this.getVertice(dadoInicio);
         Vertice<TIPO> fim = this.getVertice(dadoFim);
-        
 
-        if(inicio != null && fim != null ) {
-        	
-        Aresta<TIPO> aresta = new Aresta<TIPO>(peso, inicio, fim);
-        inicio.adicionarArestaSaida(aresta);
-        fim.adicionarArestaEntrada(aresta);
-        this.arestas.add(aresta);
-    	System.out.println("Aresta adicionada!");
-        }
-        else{
-        	System.out.println("Algum vertice informado nao existe!");
+        if (inicio != null && fim != null) {
+
+            Aresta<TIPO> aresta = new Aresta<TIPO>(peso, inicio, fim);
+            inicio.adicionarArestaSaida(aresta);
+            fim.adicionarArestaEntrada(aresta);
+            this.arestas.add(aresta);
+            System.out.println("Aresta adicionada!");
+        } else {
+            System.out.println("Algum vertice informado nao existe!");
         }
     }
 
-     //  Adiciona uma aresta nao direcionada entre dois vertices.
-     
+    // Adiciona uma aresta nao direcionada entre dois vertices.
+
     public void adicionarArestaNaoDir(Double peso, TIPO dadoInicio, TIPO dadoFim) {
         Vertice<TIPO> inicio = getVertice(dadoInicio);
         Vertice<TIPO> fim = getVertice(dadoFim);
@@ -91,7 +89,7 @@ public class Grafo<TIPO> {
 
             arestas.add(aresta1);
             arestas.add(aresta2);
-        	System.out.println("Aresta adicionada!");
+            System.out.println("Aresta adicionada!");
 
         } else {
             System.out.println("Algum v�rtice informado n�o existe!");
@@ -102,10 +100,10 @@ public class Grafo<TIPO> {
     public void removeraresta(TIPO dadoInicio, TIPO dadoFim) {
         Vertice<TIPO> inicio = this.getVertice(dadoInicio);
         Vertice<TIPO> fim = this.getVertice(dadoFim);
-    
+
         if (inicio != null && fim != null) {
             Aresta<TIPO> arestaParaRemover = null;
-    
+
             // Encontre a aresta correta para remover.
             for (Aresta<TIPO> aresta : inicio.getArestasSaida()) {
                 if (aresta.getFim() == fim) {
@@ -113,16 +111,15 @@ public class Grafo<TIPO> {
                     break;
                 }
             }
-    
+
             if (arestaParaRemover != null) {
                 inicio.removerArestaSaida(arestaParaRemover);
                 fim.removerArestaEntrada(arestaParaRemover);
                 this.arestas.remove(arestaParaRemover);
-            	System.out.println("Aresta Removida!");
+                System.out.println("Aresta Removida!");
 
             }
-        }
-        else {
+        } else {
             System.out.println("Algum vertice informado n�o existe!");
         }
     }
@@ -150,78 +147,80 @@ public class Grafo<TIPO> {
         }
     }
 
-     // Obtem um vertice pelo seu dado associado
-    public Vertice<TIPO> getVertice(TIPO dadoInicio){
+    // Obtem um vertice pelo seu dado associado
+    public Vertice<TIPO> getVertice(TIPO dadoInicio) {
         Vertice<TIPO> vertice = null;
-        for(int i=0; i < this.vertices.size(); i++){
-            if (this.vertices.get(i).getDado().equals(dadoInicio)){
+        for (int i = 0; i < this.vertices.size(); i++) {
+            if (this.vertices.get(i).getDado().equals(dadoInicio)) {
                 vertice = this.vertices.get(i);
-            }	
+            }
         }
         return vertice;
     }
 
     // Obtem o numero de vizinhos de um vertice em um grafo direcionado
-    public int  getVizinhos(TIPO dado ){
+    public int getVizinhos(TIPO dado) {
 
         String vizinhos;
         TIPO test;
-        int countVizinhos=0;
-                // Se existir uma aresta com um vertice inicial igual ao fornecido, ent�o o vertice final � vizinho
-            	for(int i=0; i<this.arestas.size();i++) {
-            		test = this.arestas.get(i).getInicio().getDado();
-        		    if(test.equals(dado)) {
-                       vizinhos = (String) this.arestas.get(i).getFim().getDado();
-                       countVizinhos++;
-                       System.out.println(countVizinhos + " Vizinho = " + vizinhos);
-                       
-                    }
-                }
- 
-                if(countVizinhos == 0 ){
-                    System.out.println(dado +" nao tem vizinhos");
-                }
-                
-           return countVizinhos;
+        int countVizinhos = 0;
+        // Se existir uma aresta com um vertice inicial igual ao fornecido, ent�o o
+        // vertice final � vizinho
+        for (int i = 0; i < this.arestas.size(); i++) {
+            test = this.arestas.get(i).getInicio().getDado();
+            if (test.equals(dado)) {
+                vizinhos = (String) this.arestas.get(i).getFim().getDado();
+                countVizinhos++;
+                System.out.println(countVizinhos + " Vizinho = " + vizinhos);
+
+            }
+        }
+
+        if (countVizinhos == 0) {
+            System.out.println(dado + " nao tem vizinhos");
+        }
+
+        return countVizinhos;
     }
-    
-     //Obtem o numero de vizinhos de um vertice em um grafo N direcionado
-    public int  getVizinhosNaoDir(TIPO dado ){
+
+    // Obtem o numero de vizinhos de um vertice em um grafo N direcionado
+    public int getVizinhosNaoDir(TIPO dado) {
 
         String vizinhos;
         TIPO test;
-        int countVizinhos=0;
-        
-            	for(int i=0; i<this.arestas.size();i++) {
-            		test = this.arestas.get(i).getInicio().getDado();
-        		    if(test.equals(dado)) {
-                       vizinhos = (String) this.arestas.get(i).getFim().getDado();
-                       countVizinhos++;
-                       System.out.println(countVizinhos + " Vizinho = " + vizinhos);
-                       
-                    }
-                }
-            	for(int i=0; i<this.arestas.size();i++) {
-            		test = this.arestas.get(i).getFim().getDado();
-        		    if(test.equals(dado)) {
-                       vizinhos = (String) this.arestas.get(i).getInicio().getDado();
-                       countVizinhos++;
-                       System.out.println(countVizinhos + " Vizinho = " + vizinhos);
-                       
-                    }
-                }
-                if(countVizinhos == 0 ){
-                    System.out.println(dado +" nao tem vizinhos");
-                }
-                
-           return countVizinhos;
+        int countVizinhos = 0;
+
+        for (int i = 0; i < this.arestas.size(); i++) {
+            test = this.arestas.get(i).getInicio().getDado();
+            if (test.equals(dado)) {
+                vizinhos = (String) this.arestas.get(i).getFim().getDado();
+                countVizinhos++;
+                System.out.println(countVizinhos + " Vizinho = " + vizinhos);
+
+            }
+        }
+        for (int i = 0; i < this.arestas.size(); i++) {
+            test = this.arestas.get(i).getFim().getDado();
+            if (test.equals(dado)) {
+                vizinhos = (String) this.arestas.get(i).getInicio().getDado();
+                countVizinhos++;
+                System.out.println(countVizinhos + " Vizinho = " + vizinhos);
+
+            }
+        }
+        if (countVizinhos == 0) {
+            System.out.println(dado + " nao tem vizinhos");
+        }
+
+        return countVizinhos;
     }
-    
-    //Obtem grau do vertice direcionado
+
+    // Obtem grau do vertice direcionado
     public int getGrauverticeDir(TIPO dado) {
         int grauSaida = 0;
         int grauEntrada = 0;
-        // Se o valor for igual ao vertice de entrada da aresta, entao pegar o vertice de saida e somar 1 no grau.
+        // Se o valor for igual ao vertice de entrada da aresta, entao pegar o vertice
+        // de saida e somar 1 no grau.
         for (Aresta<TIPO> aresta : this.arestas) {
             if (dado.equals(aresta.getInicio().getDado())) {
                 // Aresta de saida do vertice
@@ -241,12 +240,12 @@ public class Grafo<TIPO> {
 
         return grauTotal;
     }
-    
+
     // Obtem grau de um vertice N direcionado
     public int getGrauVerticeNaoDir(TIPO dado) {
         int grau = 0;
         Set<TIPO> vizinhos = new HashSet<>();
-       
+
         for (Aresta<TIPO> aresta : this.arestas) {
             if (dado.equals(aresta.getInicio().getDado())) {
                 // Aresta de sa�da do v�rtice
@@ -267,9 +266,9 @@ public class Grafo<TIPO> {
         System.out.println("Grau do vertice " + dado + ": " + grau);
         return grau;
     }
-    
+
     // Obtem o grau do grafo em um grafo direcionado.
-    
+
     public void getGrauGrafoDir() {
         int grauTotal = 0;
         for (Vertice<TIPO> vertice : this.vertices) {
@@ -279,10 +278,10 @@ public class Grafo<TIPO> {
             }
             grauTotal += grauSaida;
         }
-       System.out.println(" Grau do grafo : "+ grauTotal);
+        System.out.println(" Grau do grafo : " + grauTotal);
     }
-    
-     /**
+
+    /**
      * Obtém o grau do grafo em um grafo não direcionado.
      */
     public void getGrauGrafoNaoDir() {
@@ -306,25 +305,25 @@ public class Grafo<TIPO> {
 
         System.out.println("Grau do grafo: " + grauTotal);
 
-        return ;
+        return;
     }
-    
-     /**
+
+    /**
      * Verifica se o grafo � conexo.
      */
     public void conexo() {
         if (vertices.isEmpty()) {
             // Um grafo vazio � considerado conexo por defini��o.
-        	System.out.println("O grafo esta vazio !");
-            return ;
+            System.out.println("O grafo esta vazio !");
+            return;
         }
-        
+
         Vertice<TIPO> primeiroVertice = vertices.get(0);
         ArrayList<Vertice<TIPO>> marcados = new ArrayList<Vertice<TIPO>>();
         ArrayList<Vertice<TIPO>> fila = new ArrayList<Vertice<TIPO>>();
         marcados.add(primeiroVertice);
         fila.add(primeiroVertice);
-        
+
         while (!fila.isEmpty()) {
             Vertice<TIPO> visitado = fila.remove(0);
             for (Aresta<TIPO> aresta : visitado.getArestasSaida()) {
@@ -335,18 +334,18 @@ public class Grafo<TIPO> {
                 }
             }
         }
-        
-        // Se o n�mero de v�rtices marcados � igual ao n�mero total de v�rtices, o grafo � conexo.
-        if(marcados.size() == vertices.size()) {
-        	System.out.println("O grafo � conexo !");
-        }
-        else {
-        	System.out.println("O grafo � desconexo !");
+
+        // Se o n�mero de v�rtices marcados � igual ao n�mero total de v�rtices, o grafo
+        // � conexo.
+        if (marcados.size() == vertices.size()) {
+            System.out.println("O grafo � conexo !");
+        } else {
+            System.out.println("O grafo � desconexo !");
 
         }
-   
+
     }
-    
+
     /**
      * Verifica se o grafo direcionado é regular.
      */
@@ -357,26 +356,26 @@ public class Grafo<TIPO> {
         }
 
         int grauPrimeiroVertice = getGrauverticeDir(vertices.get(0).getDado());
-        
+
         for (Vertice<TIPO> vertice : vertices) {
             int grau = getGrauverticeDir(vertice.getDado());
             if (grau != grauPrimeiroVertice) {
-            	System.out.println("O grafo � nao � regular");
+                System.out.println("O grafo � nao � regular");
                 return;
             }
         }
-    	System.out.println("O grafo � "+ grauPrimeiroVertice + "regular");
+        System.out.println("O grafo � " + grauPrimeiroVertice + "regular");
 
         return;
     }
-    
-     /**
+
+    /**
      * Verifica se o grafo não direcionado é regular.
      */
     public void regularNaoDir() {
         if (vertices.isEmpty()) {
             System.out.println("Grafo est� vazio");
-            return ;
+            return;
         }
 
         int grauPrimeiroVertice = getGrauVerticeNaoDir(vertices.get(0).getDado());
@@ -384,16 +383,16 @@ public class Grafo<TIPO> {
         for (Vertice<TIPO> vertice : vertices) {
             int grau = getGrauVerticeNaoDir(vertice.getDado());
             if (grau != grauPrimeiroVertice) {
-            	System.out.println("O grafo � nao � regular");
+                System.out.println("O grafo � nao � regular");
 
-                return ;
+                return;
             }
         }
-    	System.out.println("O grafo � "+ grauPrimeiroVertice + "regular");
+        System.out.println("O grafo � " + grauPrimeiroVertice + "regular");
 
-        return ;
+        return;
     }
-    
+
     /**
      * Verifica se o grafo não direcionado é completo.
      */
@@ -401,53 +400,52 @@ public class Grafo<TIPO> {
         int totalVertices = vertices.size();
         int totalArestas = arestas.size();
 
-        // O n�mero total de arestas em um grafo completo n�o direcionado � dado por C(n, 2), onde n � o n�mero de v�rtices.
+        // O n�mero total de arestas em um grafo completo n�o direcionado � dado por
+        // C(n, 2), onde n � o n�mero de v�rtices.
         int arestasCompletas = (totalVertices * (totalVertices - 1)) / 2;
-        if(totalArestas == arestasCompletas) {
-        	System.out.println("O grafo � completo");
-        }
-        else {
-        	System.out.println("O grafo nao � completo");
+        if (totalArestas == arestasCompletas) {
+            System.out.println("O grafo � completo");
+        } else {
+            System.out.println("O grafo nao � completo");
 
         }
 
-        return ;
+        return;
     }
-
 
     public double[][] criarMatrizAdjacencia() {
         int tamanho = vertices.size();
         double[][] matrizAdjacencia = new double[tamanho][tamanho];
-    
+
         // Inicializa a matriz com zeros
         for (int i = 0; i < tamanho; i++) {
             for (int j = 0; j < tamanho; j++) {
                 matrizAdjacencia[i][j] = 0;
             }
         }
-    
+
         // Preenche a matriz com as conexões entre vértices
         for (Aresta<TIPO> aresta : arestas) {
             Vertice<TIPO> inicio = aresta.getInicio();
             Vertice<TIPO> fim = aresta.getFim();
             double peso = aresta.getPeso();
-    
+
             int indiceInicio = vertices.indexOf(inicio);
             int indiceFim = vertices.indexOf(fim);
-    
+
             // Verifica se os vértices são encontrados na lista
             if (indiceInicio != -1 && indiceFim != -1) {
                 // Define a entrada na matriz com peso para indicar uma aresta direcionada
                 matrizAdjacencia[indiceInicio][indiceFim] = peso;
             }
-            // Adicione um bloco else se desejar lidar com o caso em que os vértices não são encontrados.
+            // Adicione um bloco else se desejar lidar com o caso em que os vértices não são
+            // encontrados.
         }
-    
+
         return matrizAdjacencia;
     }
 
     // Imprime a matriz de adjacência.
-   
     public void imprimirMatrizAdjacencia() {
         double[][] matriz = criarMatrizAdjacencia();
         for (int i = 0; i < matriz.length; i++) {
@@ -458,52 +456,64 @@ public class Grafo<TIPO> {
         }
     }
 
+    /**
+     * Imprime o grafo no formato de lista de adjacência.
+     */
+    public void imprimirListaAdjacencia() {
+        System.out.println("Lista de Adjacência do Grafo:");
+        for (Vertice<TIPO> vertice : vertices) {
+            System.out.print(vertice.getDado() + ": ");
+            for (Aresta<TIPO> aresta : vertice.getArestasSaida()) {
+                System.out.print(aresta.getFim().getDado() + " ");
+            }
+            System.out.println();
+        }
+    }
 
-    
-     /**
+    /**
      * Verifica se o grafo direcionado é completo.
      */
     public void CompletoDir() {
         int totalVertices = vertices.size();
         int totalArestas = arestas.size();
 
-        // O n�mero total de arestas em um grafo completo direcionado � n * (n - 1), onde n � o n�mero de v�rtices.
+        // O n�mero total de arestas em um grafo completo direcionado � n * (n - 1),
+        // onde n � o n�mero de v�rtices.
         int arestasCompletas = totalVertices * (totalVertices - 1);
-        if(totalArestas == arestasCompletas) {
-        	System.out.println("O grafo � completo");
-        }
-        else {
-        	System.out.println("O grafo nao � completo");
+        if (totalArestas == arestasCompletas) {
+            System.out.println("O grafo � completo");
+        } else {
+            System.out.println("O grafo nao � completo");
 
         }
 
         return;
     }
-    
+
     /**
      * Realiza uma busca em largura a partir de um vértice.
      */
     public void buscaEmLargura() {
         System.out.println("Informe o vértice que deseja iniciar a busca:");
         TIPO valor = (TIPO) sc.next();
-    
+
         Vertice<TIPO> verticeInicial = getVertice(valor);
-    
+
         if (verticeInicial == null) {
             System.out.println("O vértice inicial não existe no grafo.");
             return;
         }
-    
+
         Set<Vertice<TIPO>> visitados = new HashSet<>();
         ArrayList<Vertice<TIPO>> fila = new ArrayList<>();
         visitados.add(verticeInicial);
         System.out.println("Início: " + verticeInicial.getDado());
         fila.add(verticeInicial);
-    
+
         while (!fila.isEmpty()) {
             Vertice<TIPO> visitado = fila.remove(0);
             System.out.println("Visitando: " + visitado.getDado()); // Mensagem de teste
-    
+
             for (Aresta<TIPO> aresta : visitado.getArestasSaida()) {
                 Vertice<TIPO> proximo = aresta.getFim();
                 if (!visitados.contains(proximo)) {
@@ -514,7 +524,7 @@ public class Grafo<TIPO> {
             }
         }
     }
-    
+
     /**
      * Realiza uma busca em profundidade a partir de um vértice.
      */
@@ -522,23 +532,24 @@ public class Grafo<TIPO> {
         System.out.println("Qual o vértice que vai iniciar a busca?");
         TIPO teste = (TIPO) sc.next();
         Vertice<TIPO> verticeInicial = getVertice(teste);
-    
+
         if (vertices.isEmpty() || verticeInicial == null) {
             System.out.println("Grafo vazio ou vértice inicial nulo.");
             return;
         }
-    
+
         Set<Vertice<TIPO>> visitados = new HashSet<>();
         System.out.println("Início da busca em profundidade:");
         buscaEmProfundidadeRecursiva(verticeInicial, visitados);
     }
+
     /**
      * Função recursiva para busca em profundidade.
      */
     private void buscaEmProfundidadeRecursiva(Vertice<TIPO> vertice, Set<Vertice<TIPO>> visitados) {
         visitados.add(vertice);
         System.out.println("Visitando: " + vertice.getDado());
-    
+
         for (Aresta<TIPO> aresta : vertice.getArestasSaida()) {
             Vertice<TIPO> proximo = aresta.getFim();
             if (!visitados.contains(proximo)) {
@@ -547,7 +558,7 @@ public class Grafo<TIPO> {
             }
         }
     }
-    
+
     public void encontrarMelhorCaminho(TIPO origem, TIPO destino) {
         Vertice<TIPO> verticeOrigem = getVertice(origem);
         Vertice<TIPO> verticeDestino = getVertice(destino);
@@ -601,8 +612,7 @@ public class Grafo<TIPO> {
             System.out.println("N�o h� caminho entre " + origem + " e " + destino + ".");
         }
     }
-    
-    
+
     public void exportarParaGEXF() {
         try {
             FileWriter fileWriter = new FileWriter("meuGrafo.gexf");
@@ -624,7 +634,8 @@ public class Grafo<TIPO> {
 
             // Escreve informa��es sobre as arestas
             for (Aresta<TIPO> aresta : arestas) {
-                printWriter.println("<edge source=\"" + aresta.getInicio().getDado() + "\" target=\"" + aresta.getFim().getDado() + "\" />");
+                printWriter.println("<edge source=\"" + aresta.getInicio().getDado() + "\" target=\""
+                        + aresta.getFim().getDado() + "\" />");
             }
 
             printWriter.println("</edges>");
@@ -638,7 +649,8 @@ public class Grafo<TIPO> {
         }
     }
 
-//------------------------------------------------------------------Algoritmo Dijkstra----------------------------------------------------------------------------//
+    // ------------------------------------------------------------------Algoritmo
+    // Dijkstra----------------------------------------------------------------------------//
 
     public void dijkstra(TIPO origem) {
         Vertice<TIPO> verticeOrigem = getVertice(origem);
@@ -684,7 +696,9 @@ public class Grafo<TIPO> {
         // Exibindo os caminhos mínimos a partir do vértice de origem
         for (Vertice<TIPO> vertice : vertices) {
             if (vertice != verticeOrigem) {
-                System.out.print("Dijkstra | Caminho mínimo de " + origem + " para " + vertice.getDado() + ": ");     //Olhar mais tarde
+                System.out.print("Dijkstra | Caminho mínimo de " + origem + " para " + vertice.getDado() + ": "); // Olhar
+                                                                                                                  // mais
+                                                                                                                  // tarde
                 Stack<Vertice<TIPO>> caminho = new Stack<>();
                 Vertice<TIPO> temp = vertice;
                 while (temp != null) {
@@ -692,215 +706,303 @@ public class Grafo<TIPO> {
                     temp = temp.getCaminhoAnterior();
                 }
                 while (!caminho.isEmpty()) {
-                   System.out.print(caminho.pop().getDado());        //Olhar mais tarde
+                    System.out.print(caminho.pop().getDado()); // Olhar mais tarde
                     if (!caminho.isEmpty()) {
                         System.out.print(" -> ");
                     }
                 }
-                System.out.println(" (Distância: " + distancias.get(vertice) + ")");    //Olhar mais tarde
+                System.out.println(" (Distância: " + distancias.get(vertice) + ")"); // Olhar mais tarde
             }
         }
     }
-//------------------------------------------------------------------Algoritmo Bellman-Ford----------------------------------------------------------------------------//
+    // ------------------------------------------------------------------Algoritmo
+    // Bellman-Ford----------------------------------------------------------------------------//
 
+    public void bellmanFord(TIPO origem) {
+        Vertice<TIPO> verticeOrigem = getVertice(origem);
 
-public void bellmanFord(TIPO origem) {
-    Vertice<TIPO> verticeOrigem = getVertice(origem);
+        if (verticeOrigem == null) {
+            System.out.println("Vértice de origem não encontrado.");
+            return;
+        }
 
-    if (verticeOrigem == null) {
-        System.out.println("Vértice de origem não encontrado.");
-        return;
-    }
+        // Inicialização: atribui o valor de distância infinita para todos os vértices
+        // exceto o vértice de origem
+        Map<Vertice<TIPO>, Double> distancias = new HashMap<>();
+        for (Vertice<TIPO> vertice : vertices) {
+            distancias.put(vertice, Double.POSITIVE_INFINITY);
+        }
+        distancias.put(verticeOrigem, 0.0);
 
-    // Inicialização: atribui o valor de distância infinita para todos os vértices exceto o vértice de origem
-    Map<Vertice<TIPO>, Double> distancias = new HashMap<>();
-    for (Vertice<TIPO> vertice : vertices) {
-        distancias.put(vertice, Double.POSITIVE_INFINITY);
-    }
-    distancias.put(verticeOrigem, 0.0);
+        // Relaxamento das arestas repetidas V-1 vezes
+        int numeroVertices = vertices.size();
+        for (int i = 0; i < numeroVertices - 1; i++) {
+            for (Aresta<TIPO> aresta : arestas) {
+                Vertice<TIPO> u = aresta.getInicio();
+                Vertice<TIPO> v = aresta.getFim();
+                double peso = aresta.getPeso();
+                if (distancias.get(u) + peso < distancias.get(v)) {
+                    distancias.put(v, distancias.get(u) + peso);
+                }
+            }
+        }
 
-    // Relaxamento das arestas repetidas V-1 vezes
-    int numeroVertices = vertices.size();
-    for (int i = 0; i < numeroVertices - 1; i++) {
+        // Verifica ciclos negativos
         for (Aresta<TIPO> aresta : arestas) {
             Vertice<TIPO> u = aresta.getInicio();
             Vertice<TIPO> v = aresta.getFim();
             double peso = aresta.getPeso();
             if (distancias.get(u) + peso < distancias.get(v)) {
-                distancias.put(v, distancias.get(u) + peso);
+                System.out.println("O grafo contém ciclo negativo.");
+                return;
+            }
+        }
+
+        // Exibindo os caminhos mínimos a partir do vértice de origem
+        for (Vertice<TIPO> vertice : vertices) {
+            if (vertice != verticeOrigem) {
+                System.out.println("Bellman-Ford | Caminho mínimo de " + origem + " para " + vertice.getDado() + ": "
+                        + distancias.get(vertice));
             }
         }
     }
 
-    // Verifica ciclos negativos
-    for (Aresta<TIPO> aresta : arestas) {
-        Vertice<TIPO> u = aresta.getInicio();
-        Vertice<TIPO> v = aresta.getFim();
-        double peso = aresta.getPeso();
-        if (distancias.get(u) + peso < distancias.get(v)) {
-            System.out.println("O grafo contém ciclo negativo.");
-            return;
-        }
-    }
+    // ------------------------------------------------------------------Floyd-Warshall----------------------------------------------------------------------------//
 
-    // Exibindo os caminhos mínimos a partir do vértice de origem
-    for (Vertice<TIPO> vertice : vertices) {
-        if (vertice != verticeOrigem) {
-            System.out.println("Bellman-Ford | Caminho mínimo de " + origem + " para " + vertice.getDado() + ": " + distancias.get(vertice));
-        }
-    }
-}
-  
-//------------------------------------------------------------------Floyd-Warshall----------------------------------------------------------------------------//
+    public void floydWarshall() {
+        int numVertices = vertices.size();
+        double[][] distancias = new double[numVertices][numVertices];
 
-
- 
- public void floydWarshall() {
-    int numVertices = vertices.size();
-    double[][] distancias = new double[numVertices][numVertices];
-
-    // Inicializa a matriz de distâncias
-    for (int i = 0; i < numVertices; i++) {
-        for (int j = 0; j < numVertices; j++) {
-            if (i == j) {
-                distancias[i][j] = 0;
-            } else {
-                Vertice<TIPO> verticeI = vertices.get(i);
-                Vertice<TIPO> verticeJ = vertices.get(j);
-                Aresta<TIPO> aresta = getAresta(verticeI, verticeJ);
-                if (aresta != null) {
-                    distancias[i][j] = aresta.getPeso();
-                } else {
-                    distancias[i][j] = Double.POSITIVE_INFINITY;
-                }
-            }
-        }
-    }
-
-    // Algoritmo de Floyd-Warshall
-    for (int k = 0; k < numVertices; k++) {
+        // Inicializa a matriz de distâncias
         for (int i = 0; i < numVertices; i++) {
             for (int j = 0; j < numVertices; j++) {
-                if (distancias[i][k] != Double.POSITIVE_INFINITY &&
-                    distancias[k][j] != Double.POSITIVE_INFINITY &&
-                    distancias[i][k] + distancias[k][j] < distancias[i][j]) {
-                    distancias[i][j] = distancias[i][k] + distancias[k][j];
+                if (i == j) {
+                    distancias[i][j] = 0;
+                } else {
+                    Vertice<TIPO> verticeI = vertices.get(i);
+                    Vertice<TIPO> verticeJ = vertices.get(j);
+                    Aresta<TIPO> aresta = getAresta(verticeI, verticeJ);
+                    if (aresta != null) {
+                        distancias[i][j] = aresta.getPeso();
+                    } else {
+                        distancias[i][j] = Double.POSITIVE_INFINITY;
+                    }
+                }
+            }
+        }
+
+        // Algoritmo de Floyd-Warshall
+        for (int k = 0; k < numVertices; k++) {
+            for (int i = 0; i < numVertices; i++) {
+                for (int j = 0; j < numVertices; j++) {
+                    if (distancias[i][k] != Double.POSITIVE_INFINITY &&
+                            distancias[k][j] != Double.POSITIVE_INFINITY &&
+                            distancias[i][k] + distancias[k][j] < distancias[i][j]) {
+                        distancias[i][j] = distancias[i][k] + distancias[k][j];
+                    }
+                }
+            }
+        }
+
+        // Exibe as distâncias mínimas entre todos os pares de vértices
+        for (int i = 0; i < numVertices; ++i) {
+            for (int j = 0; j < numVertices; ++j) {
+                System.out.print("Floyd-Warshall | Caminho mínimo de " + vertices.get(i).getDado() + " para "
+                        + vertices.get(j).getDado() + ": ");
+                if (distancias[i][j] == Double.POSITIVE_INFINITY) {
+                    System.out.println("Não há caminho.");
+                } else {
+                    System.out.println(distancias[i][j]);
                 }
             }
         }
     }
 
-    // Exibe as distâncias mínimas entre todos os pares de vértices
-    for (int i = 0; i < numVertices; ++i) {
-        for (int j = 0; j < numVertices; ++j) {
-            System.out.print("Floyd-Warshall | Caminho mínimo de " + vertices.get(i).getDado() + " para " + vertices.get(j).getDado() + ": ");
-            if (distancias[i][j] == Double.POSITIVE_INFINITY) {
-                System.out.println("Não há caminho.");
-            } else {
-                System.out.println(distancias[i][j]);
+    public Aresta<TIPO> getAresta(Vertice<TIPO> inicio, Vertice<TIPO> fim) {
+        for (Aresta<TIPO> aresta : arestas) {
+            if (aresta.getInicio().equals(inicio) && aresta.getFim().equals(fim)) {
+                return aresta;
             }
         }
+        return null; // Retorna null se a aresta não for encontrada
     }
-}
 
-public Aresta<TIPO> getAresta(Vertice<TIPO> inicio, Vertice<TIPO> fim) {
-    for (Aresta<TIPO> aresta : arestas) {
-        if (aresta.getInicio().equals(inicio) && aresta.getFim().equals(fim)) {
-            return aresta;
+    // --------------------------- AStar
+    // ----------------------------------------------------
+    public void aStar(TIPO origem) {
+
+        Vertice<TIPO> verticeOrigem = getVertice(origem);
+
+        if (verticeOrigem == null) {
+            System.out.println("Vértice de origem não encontrado.");
+            return;
         }
-    }
-    return null; // Retorna null se a aresta não for encontrada
-}
 
+        // Mapa de custos acumulados
+        Map<Vertice<TIPO>, Double> custosAcumulados = new HashMap<>();
+        for (Vertice<TIPO> vertice : vertices) {
+            custosAcumulados.put(vertice, Double.POSITIVE_INFINITY);
+        }
+        custosAcumulados.put(verticeOrigem, 0.0);
 
-// --------------------------- AStar ----------------------------------------------------
-public void aStar(TIPO origem) {
-   
-      
-    Vertice<TIPO> verticeOrigem = getVertice(origem);
+        // Mapa de heurísticas (distâncias estimadas)
+        Map<Vertice<TIPO>, Double> heuristica = new HashMap<>();
+        for (Vertice<TIPO> vertice : vertices) {
+            heuristica.put(vertice, calcularHeuristica(vertice, verticeOrigem));
+        }
 
-    if (verticeOrigem == null) {
-        System.out.println("Vértice de origem não encontrado.");
-        return;
-    }
+        // Fila de prioridade para selecionar o próximo vértice a ser processado
+        PriorityQueue<Vertice<TIPO>> filaPrioridade = new PriorityQueue<>(
+                (v1, v2) -> Double.compare(custosAcumulados.get(v1) + heuristica.get(v1),
+                        custosAcumulados.get(v2) + heuristica.get(v2)));
 
-    // Mapa de custos acumulados
-    Map<Vertice<TIPO>, Double> custosAcumulados = new HashMap<>();
-    for (Vertice<TIPO> vertice : vertices) {
-        custosAcumulados.put(vertice, Double.POSITIVE_INFINITY);
-    }
-    custosAcumulados.put(verticeOrigem, 0.0);
+        filaPrioridade.add(verticeOrigem);
 
-    // Mapa de heurísticas (distâncias estimadas)
-    Map<Vertice<TIPO>, Double> heuristica = new HashMap<>();
-    for (Vertice<TIPO> vertice : vertices) {
-        heuristica.put(vertice, calcularHeuristica(vertice, verticeOrigem));
-    }
+        // Mapa de visitados para rastrear os vértices visitados
+        Set<Vertice<TIPO>> visitados = new HashSet<>();
 
-    // Fila de prioridade para selecionar o próximo vértice a ser processado
-    PriorityQueue<Vertice<TIPO>> filaPrioridade = new PriorityQueue<>((v1, v2) ->
-            Double.compare(custosAcumulados.get(v1) + heuristica.get(v1),
-                           custosAcumulados.get(v2) + heuristica.get(v2)));
+        while (!filaPrioridade.isEmpty()) {
+            Vertice<TIPO> verticeAtual = filaPrioridade.poll();
 
-    filaPrioridade.add(verticeOrigem);
+            visitados.add(verticeAtual);
 
-    // Mapa de visitados para rastrear os vértices visitados
-    Set<Vertice<TIPO>> visitados = new HashSet<>();
+            for (Aresta<TIPO> aresta : verticeAtual.getArestasSaida()) {
+                Vertice<TIPO> verticeVizinho = aresta.getFim();
+                if (!visitados.contains(verticeVizinho)) {
+                    double novoCustoAcumulado = custosAcumulados.get(verticeAtual) + aresta.getPeso();
 
-    while (!filaPrioridade.isEmpty()) {
-        Vertice<TIPO> verticeAtual = filaPrioridade.poll();
-
-        visitados.add(verticeAtual);
-
-        for (Aresta<TIPO> aresta : verticeAtual.getArestasSaida()) {
-            Vertice<TIPO> verticeVizinho = aresta.getFim();
-            if (!visitados.contains(verticeVizinho)) {
-                double novoCustoAcumulado = custosAcumulados.get(verticeAtual) + aresta.getPeso();
-
-                if (novoCustoAcumulado < custosAcumulados.get(verticeVizinho)) {
-                    custosAcumulados.put(verticeVizinho, novoCustoAcumulado);
-                    filaPrioridade.add(verticeVizinho);
-                    // Atualizar o vértice anterior para rastrear o caminho
-                    verticeVizinho.setCaminhoAnterior(verticeAtual);
+                    if (novoCustoAcumulado < custosAcumulados.get(verticeVizinho)) {
+                        custosAcumulados.put(verticeVizinho, novoCustoAcumulado);
+                        filaPrioridade.add(verticeVizinho);
+                        // Atualizar o vértice anterior para rastrear o caminho
+                        verticeVizinho.setCaminhoAnterior(verticeAtual);
+                    }
                 }
             }
         }
-    }
 
-    // Printar os resultados
-    for (Vertice<TIPO> vertice : vertices) {
-        if (vertice != verticeOrigem) {
-            System.out.println("A-Star | Caminho mínimo de " + verticeOrigem.getDado() + " para " + vertice.getDado() +
-                    ": " + custosAcumulados.get(vertice));
+        // Printar os resultados
+        for (Vertice<TIPO> vertice : vertices) {
+            if (vertice != verticeOrigem) {
+                System.out.println(
+                        "A-Star | Caminho mínimo de " + verticeOrigem.getDado() + " para " + vertice.getDado() +
+                                ": " + custosAcumulados.get(vertice));
+            }
         }
     }
-}
 
-private double calcularHeuristica(Vertice<TIPO> verticeAtual, Vertice<TIPO> verticeDestino) {
-    // Substitua este método pela sua heurística específica
-    // Por exemplo, você pode usar a distância euclidiana entre as coordenadas dos vértices.
-    return 0.0;
-}
-
-private void reconstruirCaminho(Vertice<TIPO> origem, Vertice<TIPO> destino) {
-    Stack<TIPO> caminho = new Stack<>();
-    Vertice<TIPO> vertice = destino;
-
-    while (vertice != null) {
-        caminho.push(vertice.getDado());
-        vertice = vertice.getCaminhoAnterior();
+    private double calcularHeuristica(Vertice<TIPO> verticeAtual, Vertice<TIPO> verticeDestino) {
+        // Substitua este método pela sua heurística específica
+        // Por exemplo, você pode usar a distância euclidiana entre as coordenadas dos
+        // vértices.
+        return 0.0;
     }
 
-    System.out.print("Caminho encontrado: ");
-    while (!caminho.isEmpty()) {
-        System.out.print(caminho.pop());
-        if (!caminho.isEmpty()) {
-            System.out.print(" -> ");
+    private void reconstruirCaminho(Vertice<TIPO> origem, Vertice<TIPO> destino) {
+        Stack<TIPO> caminho = new Stack<>();
+        Vertice<TIPO> vertice = destino;
+
+        while (vertice != null) {
+            caminho.push(vertice.getDado());
+            vertice = vertice.getCaminhoAnterior();
+        }
+
+        System.out.print("Caminho encontrado: ");
+        while (!caminho.isEmpty()) {
+            System.out.print(caminho.pop());
+            if (!caminho.isEmpty()) {
+                System.out.print(" -> ");
+            }
+        }
+        System.out.println();
+    }
+
+    /**
+     * Verifica se o grafo é acíclico.
+     */
+    public boolean isAciclico() {
+        Set<Vertice<TIPO>> visitados = new HashSet<>();
+        Set<Vertice<TIPO>> recursaoStack = new HashSet<>();
+
+        for (Vertice<TIPO> vertice : vertices) {
+            if (!visitados.contains(vertice)) {
+                if (isCiclo(vertice, visitados, recursaoStack)) {
+                    return false; // O grafo contém ciclos
+                }
+            }
+        }
+        return true; // O grafo é acíclico
+    }
+
+    private boolean isCiclo(Vertice<TIPO> vertice, Set<Vertice<TIPO>> visitados, Set<Vertice<TIPO>> recursaoStack) {
+        visitados.add(vertice);
+        recursaoStack.add(vertice);
+
+        for (Aresta<TIPO> aresta : vertice.getArestasSaida()) {
+            Vertice<TIPO> vizinho = aresta.getFim();
+
+            if (!visitados.contains(vizinho)) {
+                if (isCiclo(vizinho, visitados, recursaoStack)) {
+                    return true;
+                }
+            } else if (recursaoStack.contains(vizinho)) {
+                return true;
+            }
+        }
+
+        recursaoStack.remove(vertice);
+        return false;
+    }
+
+    /**
+     * Verifica se o grafo é Euleriano.
+     */
+    public boolean isEuleriano() {
+        if (!isConexo()) {
+            return false; // O grafo deve ser conexo
+        }
+
+        int verticesImpares = 0;
+        for (Vertice<TIPO> vertice : vertices) {
+            int grau = vertice.getArestasSaida().size() + vertice.getArestasEntrada().size();
+            if (grau % 2 != 0) {
+                verticesImpares++;
+            }
+        }
+
+        return verticesImpares == 0; // Euleriano se nenhum vértice tem grau ímpar
+    }
+
+    /**
+     * Verifica se o grafo é conexo (auxiliar para isEuleriano).
+     */
+    private boolean isConexo() {
+        if (vertices.isEmpty()) {
+            return true; // Um grafo vazio é considerado conexo
+        }
+
+        Set<Vertice<TIPO>> visitados = new HashSet<>();
+        visitarConexo(vertices.get(0), visitados);
+
+        return visitados.size() == vertices.size();
+    }
+
+    private void visitarConexo(Vertice<TIPO> vertice, Set<Vertice<TIPO>> visitados) {
+        visitados.add(vertice);
+
+        for (Aresta<TIPO> aresta : vertice.getArestasSaida()) {
+            Vertice<TIPO> vizinho = aresta.getFim();
+            if (!visitados.contains(vizinho)) {
+                visitarConexo(vizinho, visitados);
+            }
+        }
+
+        for (Aresta<TIPO> aresta : vertice.getArestasEntrada()) {
+            Vertice<TIPO> vizinho = aresta.getInicio();
+            if (!visitados.contains(vizinho)) {
+                visitarConexo(vizinho, visitados);
+            }
         }
     }
-    System.out.println();
-}
-
-    
 
 }

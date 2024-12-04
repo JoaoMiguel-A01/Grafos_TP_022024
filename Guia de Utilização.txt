@@ -12,6 +12,7 @@ Debugger for Java
 Test Runner for Java
 Maven for Java
 Project Manager for Java
+
 Compile e Execute o Programa
 
 No Visual Studio Code, clique em "Run" para compilar e executar o programa.
