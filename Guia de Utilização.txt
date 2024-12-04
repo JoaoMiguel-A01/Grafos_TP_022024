@@ -1,4 +1,4 @@
-1. Configuração do Ambiente
+ 1. Configuração do Ambiente
 Extraia os Arquivos
 
 Após obter o arquivo do programa, extraia-o para uma pasta em seu computador.
