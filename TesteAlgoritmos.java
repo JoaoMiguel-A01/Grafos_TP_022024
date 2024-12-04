@@ -4,8 +4,7 @@
  * Instituto de Ciências Exatas e Informática
  * Engenharia de Computação
  * Última Atualização: 03/12/2024
- * Integrantes: David Lanna de Moraes, João Miguel de Abreu Constâncio, 
- * Gabriel El-Dine e Paulo Ricardo Ferreira Gualberto. 
+ * Integrantes: David Lanna de Moraes, João Miguel de Abreu Constâncio e Paulo Ricardo Ferreira Gualberto. 
  */
 
 
